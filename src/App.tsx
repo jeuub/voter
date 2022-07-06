@@ -16,10 +16,12 @@ const renderRoutes = (routes: RouteType[]) => {
 function App() {
   return (
     <HashRouter>
-      <Provider store={setupStore()}>
-        <Header />
-        {<Routes>{renderRoutes(routes)}</Routes>}
-      </Provider>
+      <SnackbarProvider>
+        <Provider store={setupStore()}>
+          <Header />
+          {<Routes>{renderRoutes(routes)}</Routes>}
+        </Provider>
+      </SnackbarProvider>
     </HashRouter>
   );
 }

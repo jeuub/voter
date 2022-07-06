@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import type { UserAuthorizationType } from "@consts";
-import { register, login, loginAdmin } from "@store";
+import { register, login, loginAdmin, userSlice } from "@store";
 import { useAppDispatch, useAppSelector } from "@hooks";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 type AuthTypes = "LOGIN" | "REGISTRATION" | "ADMIN";
 
@@ -19,6 +20,7 @@ export const Auth: FC<Props> = ({ authType }) => {
   const { error, loading, user } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const getHeading = (type: AuthTypes): string => {
     switch (type) {
       case "ADMIN":
@@ -33,8 +35,28 @@ export const Auth: FC<Props> = ({ authType }) => {
   useEffect(() => {
     if (user) {
       navigate("/");
+      enqueueSnackbar(
+        authType === "REGISTRATION"
+          ? "Вы успешно зарегистрировались"
+          : "Вы успешно авторизовались",
+        { variant: "success" }
+      );
     }
   }, [user]);
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(
+        authType === "REGISTRATION"
+          ? "Ошибка регистрации. Введенный логин уже занят"
+          : "Ошибка авторизации. Проверьте данные",
+        {
+          variant: "error",
+        }
+      );
+      dispatch(userSlice.actions.removeError());
+    }
+  }, [error]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

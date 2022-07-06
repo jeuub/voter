@@ -22,11 +22,13 @@ export const userSlice = createSlice({
     userFetching(state) {
       state.loading = true;
     },
+
     userFetchingSuccess(state, action: PayloadAction<{ user: UserType }>) {
       state.loading = false;
       state.error = '';
       state.user = action.payload.user;
     },
+
     userFetchingError(state, action: PayloadAction<{ message: string }>) {
       state.loading = false;
       state.error = action.payload.message;
@@ -35,6 +37,9 @@ export const userSlice = createSlice({
     userLogout(state) {
       localStorage.removeItem('token');
       state.user = null
+    },
+    removeError(state) {
+      state.error = ''
     }
   }
 });

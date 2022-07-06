@@ -34,12 +34,12 @@ export const Header = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/landing">
+            <Link to="/">
               <i className="fas fa-newspaper"></i> <span>Главная</span>
             </Link>
           </li>
           <li>
-            <Link to="/">
+            <Link to="/polls">
               <i className="fas fa-poll-h"></i> <span>Голосования</span>
             </Link>
           </li>
