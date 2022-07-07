@@ -305,6 +305,7 @@ section {
   max-width: 300px;
   list-style-type: none;
   position: relative;
+  cursor: pointer;
 }
 
 .polls__container__poll div {
@@ -334,19 +335,18 @@ section {
 }
 
 .polls__options {
-  width: 100%;
   display: flex;
-  justify-content: center;
+  padding: 20px;
   gap: 10px;
   flex-direction: column;
-  margin-bottom: 30px;
 }
 
-.polls__options label {
+.polls__options>label {
   text-align: center;
   padding: 10px 20px;
   border: 1px solid black;
   transition: 300ms;
+  cursor: pointer;
 }
 
 .polls__options input {
@@ -760,5 +760,46 @@ section {
   border-radius: 0;
   border-width: 1px;
 }
+
+.polls__filtration {
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchbox {
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.searchbox button {
+  text-align: center;
+  padding: 10px 20px;
+  background: #f1ede9;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.searchbox input {
+  background: #f1ede9;
+  height: 100%;
+  padding: 10px 20px;
+}
+
+@media screen and (max-width : 786px) {
+  .polls__options {
+    justify-content: center;
+  }
+
+  .polls__filtration {
+    flex-direction: column;
+  }
+
+  .searchbox {
+    justify-content: center;
+  }
+}
+
 
 /*# sourceMappingURL=style.css.map */

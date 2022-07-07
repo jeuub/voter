@@ -13,6 +13,7 @@ export function Polls() {
   const { error, loading, polls } = useAppSelector(
     (state) => state.pollsReducer
   );
+  const { user } = useAppSelector((state) => state.userReducer);
   useEffect(() => {
     !polls && dispatch(getPolls());
   }, []);
@@ -38,72 +39,85 @@ export function Polls() {
     pageButtons.push(i);
   }
 
+  const filteredPolls = polls
+    ?.filter(filtration)
+    .filter(
+      (_, idx) =>
+        idx < MAX_POLLS * activePage && idx > (activePage - 1) * MAX_POLLS - 1
+    );
+
   return (
     <main>
-      <div
-        style={{
-          padding: "20px",
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "10px",
-        }}
-      >
-        <label
-          style={{
-            width: search === undefined ? 0 : "170px",
-            overflow: "hidden",
-            transition: ".3s",
-          }}
-        >
+      <div className="polls__filtration">
+        <div className="polls__options">
           <input
-            className="search-input"
-            type="text"
-            placeholder="Найти"
-            style={{ maxWidth: "170px" }}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearch(e.target.value)
-            }
+            id="pollsOwner_all"
+            onClick={getPolls}
+            defaultChecked
+            type="radio"
+            name="pollsOwner"
           />
-        </label>
+          <label htmlFor="pollsOwner_all">Все голосования</label>
 
-        <button
-          onClick={() => setSearch(search === undefined ? "" : undefined)}
-        >
-          Поиск
-        </button>
+          <input id="pollsOwner_my" type="radio" name="pollsOwner" />
+          <label htmlFor="pollsOwner_my">Мои голосования</label>
+        </div>
+        <div className="searchbox">
+          <label
+            style={{
+              width: search === undefined ? 0 : "200px",
+              overflow: "hidden",
+              transition: ".3s",
+            }}
+          >
+            <input
+              className="search-input"
+              type="text"
+              placeholder="Найти"
+              style={{ maxWidth: "100%" }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+            />
+          </label>
+
+          <button
+            onClick={() => setSearch(search === undefined ? "" : undefined)}
+          >
+            Поиск
+          </button>
+        </div>
       </div>
+
       <section className="polls">
+        {!filteredPolls?.length && search && (
+          <h2>Опросов по данному запросу не найдено</h2>
+        )}
         <ul className="polls__container">
-          {polls
-            ?.filter(filtration)
-            .filter(
-              (_, idx) =>
-                idx < MAX_POLLS * activePage &&
-                idx > (activePage - 1) * MAX_POLLS - 1
-            )
-            ?.map((poll) => (
-              <li
-                className="polls__container__poll"
-                onClick={() => handleSelect(poll._id)}
-                key={poll._id}
-              >
-                Название: {poll.question}
-                <br />
-                {poll.user.username ? (
-                  <span>Автор: {poll.user.username}</span>
-                ) : null}
-                <br />
-                Участников опроса: {poll.voted.length}
-                <div>{new Date(poll.created).toLocaleDateString()}</div>
-              </li>
-            ))}
+          {filteredPolls?.map((poll) => (
+            <li
+              className="polls__container__poll"
+              onClick={() => handleSelect(poll._id)}
+              key={poll._id}
+            >
+              Название: {poll.question}
+              <br />
+              {poll.user.username ? (
+                <span>Автор: {poll.user.username}</span>
+              ) : null}
+              <br />
+              Участников опроса: {poll.voted.length}
+              <div>{new Date(poll.created).toLocaleDateString()}</div>
+            </li>
+          ))}
         </ul>
         <div className="paginate-buttons">
-          {activePage !== 1 && (
-            <button onClick={() => setActivePage(activePage - 1)}>
-              {"<"}{" "}
-            </button>
-          )}
+          <button
+            disabled={activePage === 1}
+            onClick={() => setActivePage(activePage - 1)}
+          >
+            {"<"}{" "}
+          </button>
           {pageButtons.map((el) => (
             <button
               disabled={el + 1 === activePage}
@@ -112,11 +126,12 @@ export function Polls() {
               {el + 1}
             </button>
           ))}
-          {activePage !== pages && (
-            <button onClick={() => setActivePage(activePage + 1)}>
-              {">"}{" "}
-            </button>
-          )}
+          <button
+            disabled={activePage === pages}
+            onClick={() => setActivePage(activePage + 1)}
+          >
+            {">"}
+          </button>
         </div>
       </section>
     </main>
