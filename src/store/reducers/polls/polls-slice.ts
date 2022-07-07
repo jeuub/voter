@@ -75,7 +75,7 @@ export const pollsSlice = createSlice({
     },
     createPollSuccess(state, action: PayloadAction<Poll>) {
       state.createPollLoading = false
-      if (state.polls !== undefined) state.polls.push(action.payload)
+      // if (state.polls !== undefined) state.polls.push(action.payload)
       state.createPollSuccess = true;
       state.createPollError = ''
     },
