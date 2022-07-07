@@ -1,5 +1,6 @@
 import { UserType } from "@consts";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 type userState = {
   user: undefined | null | {
@@ -36,6 +37,9 @@ export const userSlice = createSlice({
     },
     userLogout(state) {
       localStorage.removeItem('token');
+
+      axios.defaults.headers.common["Authorization"] = '';
+
       state.user = null
     },
     removeError(state) {

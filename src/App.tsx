@@ -6,6 +6,7 @@ import { Header } from "./components";
 import { setupStore } from "@store";
 import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
+import axios from "axios";
 
 const renderRoutes = (routes: RouteType[]) => {
   return routes.map((route: RouteType, idx: number) => {
@@ -14,6 +15,9 @@ const renderRoutes = (routes: RouteType[]) => {
 };
 
 function App() {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`;
   return (
     <HashRouter>
       <SnackbarProvider>

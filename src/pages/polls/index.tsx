@@ -17,7 +17,7 @@ export function Polls() {
     !polls && dispatch(getPolls());
   }, []);
   const handleSelect = (id: string) => {
-    navigate(`polls/${id}`);
+    navigate(`${id}`);
   };
 
   const filtration = (el: Poll) => {

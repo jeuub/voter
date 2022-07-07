@@ -20,4 +20,4 @@ export type AppStore = ReturnType<typeof setupStore>
 
 export type AppDispatch = AppStore['dispatch'];
 
-export { register, login, loginAdmin, userReducer, userSlice, createPoll, getPolls, techSlice, techsReducer } from './reducers'
+export { register, login, loginAdmin, userReducer, userSlice, createPoll, getPolls, techSlice, techsReducer, getPoll, vote, pollsReducer, pollsSlice } from './reducers'

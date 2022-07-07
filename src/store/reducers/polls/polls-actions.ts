@@ -32,3 +32,34 @@ export const getPolls = () => async (dispatch: AppDispatch) => {
     dispatch(pollsSlice.actions.pollsFetchingError({ message }))
   }
 };
+
+export const getPoll = (data: { id: string }) => async (dispatch: AppDispatch) => {
+
+  try {
+    const response: { data: Poll } = await axios.get(`${baseURL}/api/polls/${data.id}`)
+
+    dispatch(pollsSlice.actions.setCurrentPoll({ poll: response.data }))
+
+  } catch (e) {
+  }
+};
+
+export const vote = (data: { question: string, options: string[], answer: string[], id: string }) => async (dispatch: AppDispatch) => {
+
+  try {
+    dispatch(pollsSlice.actions.votingFetching())
+
+    await axios.post(`${baseURL}/api/polls/${data.id}`, data)
+
+    dispatch(pollsSlice.actions.votingSuccess())
+
+    const response: { data: Poll } = await axios.get(`${baseURL}/api/polls/${data.id}`)
+
+    dispatch(pollsSlice.actions.setCurrentPoll({ poll: response.data }))
+
+  } catch (e) {
+    let message = 'Ошибка получения опросов. Попробуйте позже';
+    if (e instanceof Error) message = e.message;
+    dispatch(pollsSlice.actions.votingError({ message }))
+  }
+};

@@ -25,7 +25,7 @@ export type Poll = {
   _id: string;
   question: string;
   user: UserType;
-  options: Option;
+  options: Option[];
   created: string;
 }
 

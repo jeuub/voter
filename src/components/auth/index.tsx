@@ -106,11 +106,11 @@ export const Auth: FC<Props> = ({ authType }) => {
             placeholder="Ваш пароль"
             onChange={handleChange}
           />
-          {Number(passwordRef?.current?.value?.length) <= 6 &&
+          {Number(passwordRef?.current?.value?.length) < 6 &&
             "Минимум 6 символов"}
         </label>
         <button
-          disabled={loading || Number(passwordRef?.current?.value?.length) <= 6}
+          disabled={loading || Number(passwordRef?.current?.value?.length) < 6}
         >
           {loading ? "Загрузка..." : "Готово"}
         </button>
