@@ -1,4 +1,4 @@
-import { Main, AuthPage, Polls, Poll } from "@pages";
+import { Main, AuthPage, Polls, Poll, CreatePoll } from "@pages";
 import { URL } from "@consts";
 import type { RouteType } from "@consts";
 
@@ -26,5 +26,9 @@ export const routes: RouteType[] = [
   {
     path: URL.POLL,
     element: <Poll />,
+  },
+  {
+    path: URL.POLLS_CREATE,
+    element: <CreatePoll />,
   },
 ];

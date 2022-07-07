@@ -61,7 +61,7 @@ export const Header = () => {
           ) : (
             <>
               <li>
-                <Link to="/create">
+                <Link to="/polls/create">
                   <i className="far fa-plus-square"></i> <span>Создать</span>
                 </Link>
               </li>

@@ -6,14 +6,13 @@ import axios from "axios";
 
 export const createPoll = (poll: CreatingPoll) => async (dispatch: AppDispatch) => {
   try {
-    dispatch(pollsSlice.actions.pollsFetching())
+    dispatch(pollsSlice.actions.createPollFetching())
     const response: { data: Poll } = await axios.post(`${baseURL}/api/polls`, poll)
 
-    dispatch(pollsSlice.actions.pollsAdd(response.data))
+    dispatch(pollsSlice.actions.createPollSuccess(response.data))
   } catch (e) {
     let message = 'Ошибка при создании опроса';
-    if (e instanceof Error) message = e.message;
-    dispatch(pollsSlice.actions.pollsFetchingError({ message }))
+    dispatch(pollsSlice.actions.createPollError({ message }))
   }
 };
 

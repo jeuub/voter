@@ -8,6 +8,9 @@ type pollsState = {
   votingLoading: boolean;
   voatingError: string;
   currentPoll: Poll | undefined;
+  createPollLoading: boolean;
+  createPollError: string;
+  createPollSuccess: boolean;
 }
 
 const initialState: pollsState = {
@@ -17,6 +20,9 @@ const initialState: pollsState = {
   votingLoading: false,
   voatingError: '',
   currentPoll: undefined,
+  createPollLoading: false,
+  createPollError: '',
+  createPollSuccess: false,
 }
 
 export const pollsSlice = createSlice({
@@ -62,8 +68,27 @@ export const pollsSlice = createSlice({
     },
     hideVotingError(state) {
       state.voatingError = ''
-    }
+    },
 
+    createPollFetching(state) {
+      state.createPollLoading = true
+    },
+    createPollSuccess(state, action: PayloadAction<Poll>) {
+      state.createPollLoading = false
+      if (state.polls !== undefined) state.polls.push(action.payload)
+      state.createPollSuccess = true;
+      state.createPollError = ''
+    },
+    createPollError(state, action: PayloadAction<{ message: string }>) {
+      state.createPollLoading = false
+      state.createPollError = action.payload.message
+    },
+    hideCreatePollError(state) {
+      state.createPollError = ''
+    },
+    removeCreatePollSuccess(state) {
+      state.createPollSuccess = false
+    }
   }
 });
 
