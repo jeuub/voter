@@ -117,7 +117,9 @@ export function Polls() {
 
       <section className="polls">
         <div>
-          {sortType ? "сначала больше участников" : "сначала меньше участников"}
+          {!sortType
+            ? "сначала больше участников"
+            : "сначала меньше участников"}
           <button onClick={() => setSortType(!sortType)}>изменить</button>
         </div>
         {!filteredPolls?.length && search && (
