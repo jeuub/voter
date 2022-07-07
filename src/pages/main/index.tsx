@@ -4,8 +4,10 @@ import "@styles/styles.css";
 import Elections1 from "@assets/images/elections_01.svg";
 import Elections5 from "@assets/images/elections_05.svg";
 import myAvatar from "@assets/images/avatar.jpg";
+import { useAppSelector } from "@hooks";
 
 export function Main() {
+  const { techs } = useAppSelector((state) => state.techsReducer);
   return (
     <main className="landing">
       <section className="landing__start">
@@ -67,11 +69,34 @@ export function Main() {
       </section>
       <section className="landing__techs">
         <h2 className="landing__techs__title">Используемые Технологии</h2>
-        <div className="landing__techs__container"></div>
-      </section>
-      <section className="landing__versions">
-        <h2 className="landing__versions__title">Обновления</h2>
-        <ul className="landing__versions__container"></ul>
+        <div className="landing__techs__container">
+          {techs.map((tech, idx) => {
+            return (
+              <div
+                key={`tech ${idx}`}
+                className="landing__techs__container__tech"
+              >
+                <h3>
+                  {idx + 1}. {tech.title}
+                </h3>
+                <p>{tech.text}</p>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    height: "150px",
+                    marginTop: "auto",
+                  }}
+                >
+                  <img height="150" src={tech.photo} alt={tech.title} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
     </main>
   );

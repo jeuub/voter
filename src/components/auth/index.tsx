@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import type { UserAuthorizationType } from "@consts";
 import { register, login, loginAdmin, userSlice } from "@store";
 import { useAppDispatch, useAppSelector } from "@hooks";
@@ -16,6 +16,7 @@ export const Auth: FC<Props> = ({ authType }) => {
     password: "",
     username: "",
   });
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const { error, loading, user } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
@@ -100,11 +101,19 @@ export const Auth: FC<Props> = ({ authType }) => {
             autoComplete="off"
             value={formData.password}
             name="password"
+            minLength={6}
+            ref={passwordRef}
             placeholder="Ваш пароль"
             onChange={handleChange}
           />
+          {Number(passwordRef?.current?.value?.length) <= 6 &&
+            "Минимум 6 символов"}
         </label>
-        <button disabled={loading}>{loading ? "Загрузка..." : "Готово"}</button>
+        <button
+          disabled={loading || Number(passwordRef?.current?.value?.length) <= 6}
+        >
+          {loading ? "Загрузка..." : "Готово"}
+        </button>
       </form>
     </>
   );
