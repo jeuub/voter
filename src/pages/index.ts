@@ -1,2 +1,3 @@
-export { Main } from './main'
-export { AuthPage } from './login'
+export { Main } from './main';
+export { AuthPage } from './login';
+export { Polls } from './polls';

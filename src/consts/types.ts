@@ -13,3 +13,23 @@ export type UserType = {
   id: string;
   admin?: boolean;
 }
+
+export type Option = {
+  votes: number;
+  _id: string;
+  option: string;
+}
+
+export type Poll = {
+  voted: string[];
+  _id: string;
+  question: string;
+  user: UserType;
+  options: Option;
+  created: string;
+}
+
+export type CreatingPoll = {
+  question: string;
+  options: string[];
+}

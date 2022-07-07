@@ -1,9 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import { userReducer, techsReducer } from './reducers';
+import { userReducer, techsReducer, pollsReducer } from './reducers';
 
 const rootReducer = combineReducers({
   userReducer,
-  techsReducer
+  techsReducer,
+  pollsReducer
 })
 
 export const setupStore = () => {
@@ -19,4 +20,4 @@ export type AppStore = ReturnType<typeof setupStore>
 
 export type AppDispatch = AppStore['dispatch'];
 
-export { register, login, loginAdmin, userReducer, userSlice } from './reducers'
+export { register, login, loginAdmin, userReducer, userSlice, createPoll, getPolls, techSlice, techsReducer } from './reducers'

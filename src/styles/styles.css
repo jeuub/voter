@@ -303,6 +303,14 @@ section {
   position: relative;
   transition: 300ms;
   max-width: 300px;
+  list-style-type: none;
+  position: relative;
+}
+
+.polls__container__poll div {
+  position: absolute;
+  bottom: 5px;
+  right: 5px
 }
 
 .polls__container__poll:before {
@@ -711,6 +719,46 @@ section {
   html {
     font-size: 22px;
   }
+}
+
+.paginate-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.paginate-buttons button {
+  border-radius: 0px;
+  border-width: 1px;
+}
+
+.paginate-buttons button:hover {
+  color: white;
+  background: black;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.paginate-buttons button:disabled {
+  cursor: auto;
+  background: #f0f0f0;
+  color: black;
+  opacity: .5;
+}
+
+.paginate-buttons button:hover:disabled {
+  cursor: auto;
+  background: #f0f0f0;
+  color: black;
+  opacity: .5;
+}
+
+.search-input {
+  padding: 3px 12px;
+  border-radius: 0;
+  border-width: 1px;
 }
 
 /*# sourceMappingURL=style.css.map */
