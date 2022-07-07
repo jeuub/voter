@@ -35,7 +35,7 @@ export function Poll() {
 
   useEffect(() => {
     if (voatingError) {
-      enqueueSnackbar(voatingError);
+      enqueueSnackbar(voatingError, { variant: "error" });
       dispatch(pollsSlice.actions.hideVotingError());
     }
   }, [voatingError]);

@@ -107,6 +107,7 @@ export const Auth: FC<Props> = ({ authType }) => {
             onChange={handleChange}
           />
           {Number(passwordRef?.current?.value?.length) < 6 &&
+            authType === "REGISTRATION" &&
             "Минимум 6 символов"}
         </label>
         <button

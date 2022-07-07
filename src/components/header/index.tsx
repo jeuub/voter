@@ -66,11 +66,11 @@ export const Header = () => {
                 </Link>
               </li>
 
-              <li>
+              {/*               <li>
                 <Link to="/me">
                   <i className="far fa-grin-beam"></i> <span>Вы</span>
                 </Link>
-              </li>
+              </li> */}
 
               <button className="header__logout" onClick={logout}>
                 <i className="fas fa-door-closed"></i> <span>Выйти</span>

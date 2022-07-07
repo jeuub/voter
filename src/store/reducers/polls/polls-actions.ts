@@ -58,8 +58,7 @@ export const vote = (data: { question: string, options: string[], answer: string
     dispatch(pollsSlice.actions.setCurrentPoll({ poll: response.data }))
 
   } catch (e) {
-    let message = 'Ошибка получения опросов. Попробуйте позже';
-    if (e instanceof Error) message = e.message;
+    let message = 'Вы уже проголосовали. Отменить голос нельзя';
     dispatch(pollsSlice.actions.votingError({ message }))
   }
 };
