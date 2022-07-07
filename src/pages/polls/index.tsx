@@ -10,6 +10,7 @@ export function Polls() {
   const [activePage, setActivePage] = useState(1);
   const [search, setSearch] = useState<string | null | undefined>(undefined);
   const [onlyUsersPollsMode, setOnlyUsersPollsMode] = useState<boolean>(false);
+  const [sortType, setSortType] = useState<boolean>(false);
   const MAX_POLLS = 6;
   const { polls } = useAppSelector((state) => state.pollsReducer);
   const { user } = useAppSelector((state) => state.userReducer);
@@ -54,8 +55,15 @@ export function Polls() {
         idx < MAX_POLLS * activePage && idx > (activePage - 1) * MAX_POLLS - 1
     );
 
+  if (!filteredPolls)
+    return (
+      <main>
+        <h2>Загрузка...</h2>
+      </main>
+    );
+
   return (
-    <main>
+    <main className="polls_container">
       <div className="polls__filtration">
         <div className="polls__options">
           <input
@@ -92,9 +100,10 @@ export function Polls() {
               type="text"
               placeholder="Найти"
               style={{ maxWidth: "100%" }}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setSearch(e.target.value)
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setSearch(e.target.value);
+                setActivePage(1);
+              }}
             />
           </label>
 
@@ -107,33 +116,43 @@ export function Polls() {
       </div>
 
       <section className="polls">
+        <div>
+          {sortType ? "сначала больше участников" : "сначала меньше участников"}
+          <button onClick={() => setSortType(!sortType)}>изменить</button>
+        </div>
         {!filteredPolls?.length && search && (
           <h2>Опросов по данному запросу не найдено</h2>
         )}
         <ul className="polls__container">
-          {filteredPolls?.map((poll) => (
-            <li
-              className="polls__container__poll"
-              onClick={() => handleSelect(poll._id)}
-              key={poll._id}
-            >
-              Название: {poll.question}
-              <br />
-              {poll.user.username ? (
-                <span>Автор: {poll.user.username}</span>
-              ) : null}
-              <br />
-              Участников опроса: {poll.voted.length}
-              <div>{new Date(poll.created).toLocaleDateString()}</div>
-            </li>
-          ))}
+          {filteredPolls
+            ?.sort((a, b) =>
+              sortType
+                ? a.voted.length - b.voted.length
+                : b.voted.length - a.voted.length
+            )
+            ?.map((poll) => (
+              <li
+                className="polls__container__poll"
+                onClick={() => handleSelect(poll._id)}
+                key={poll._id}
+              >
+                Название: {poll.question}
+                <br />
+                {poll.user.username ? (
+                  <span>Автор: {poll.user.username}</span>
+                ) : null}
+                <br />
+                Участников опроса: {poll.voted.length}
+                <div>{new Date(poll.created).toLocaleDateString()}</div>
+              </li>
+            ))}
         </ul>
         <div className="paginate-buttons">
           <button
             disabled={activePage === 1}
             onClick={() => setActivePage(activePage - 1)}
           >
-            {"<"}{" "}
+            {"<"}
           </button>
           {pageButtons.map((el) => (
             <button
