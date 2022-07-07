@@ -11,6 +11,7 @@ export type UserAuthorizationType = {
 export type UserType = {
   username: string;
   id: string;
+  _id?: string;
   admin?: boolean;
 }
 

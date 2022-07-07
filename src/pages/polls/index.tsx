@@ -9,10 +9,9 @@ export function Polls() {
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
   const [search, setSearch] = useState<string | null | undefined>(undefined);
+  const [onlyUsersPollsMode, setOnlyUsersPollsMode] = useState<boolean>(false);
   const MAX_POLLS = 6;
-  const { error, loading, polls } = useAppSelector(
-    (state) => state.pollsReducer
-  );
+  const { polls } = useAppSelector((state) => state.pollsReducer);
   const { user } = useAppSelector((state) => state.userReducer);
   useEffect(() => {
     !polls && dispatch(getPolls());
@@ -29,9 +28,17 @@ export function Polls() {
       : el;
   };
 
+  const userPollsFiltration = (el: Poll) => {
+    console.log(el.user._id);
+    if (!onlyUsersPollsMode) return true;
+    return el.user._id === user?.id;
+  };
+
   const pages =
-    polls?.filter(filtration)?.length &&
-    Math.ceil(polls?.filter(filtration)?.length / MAX_POLLS);
+    polls?.filter(userPollsFiltration)?.filter(filtration)?.length &&
+    Math.ceil(
+      polls?.filter(filtration)?.filter(userPollsFiltration)?.length / MAX_POLLS
+    );
 
   let pageButtons = [];
 
@@ -41,6 +48,7 @@ export function Polls() {
 
   const filteredPolls = polls
     ?.filter(filtration)
+    ?.filter(userPollsFiltration)
     .filter(
       (_, idx) =>
         idx < MAX_POLLS * activePage && idx > (activePage - 1) * MAX_POLLS - 1
@@ -52,15 +60,24 @@ export function Polls() {
         <div className="polls__options">
           <input
             id="pollsOwner_all"
-            onClick={getPolls}
             defaultChecked
             type="radio"
             name="pollsOwner"
           />
-          <label htmlFor="pollsOwner_all">Все голосования</label>
+          <label
+            htmlFor="pollsOwner_all"
+            onClick={() => setOnlyUsersPollsMode(false)}
+          >
+            Все голосования
+          </label>
 
           <input id="pollsOwner_my" type="radio" name="pollsOwner" />
-          <label htmlFor="pollsOwner_my">Мои голосования</label>
+          <label
+            htmlFor="pollsOwner_my"
+            onClick={() => setOnlyUsersPollsMode(true)}
+          >
+            Мои голосования
+          </label>
         </div>
         <div className="searchbox">
           <label
