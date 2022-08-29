@@ -1,1 +1,1 @@
-web: npm run preview --port 8080
+web: npm run preview
